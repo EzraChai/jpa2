@@ -1,0 +1,25 @@
+spring:
+  thymeleaf:
+    cache: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.11.128:3306/blog?useUnicode=true&CharacterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Kuala_Lumpur
+    username: root
+    data-password: D9806f2a2b
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+
+server:
+  port: 8082
+
+logging:
+  level:
+    root: warn
+    com.bjpoweronde.springboot.blog: debug
+  file:
+    name: blog-pro.log
+    path: log

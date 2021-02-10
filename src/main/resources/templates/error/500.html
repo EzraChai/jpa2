@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragment :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>500</title>
+</head>
+<body>
+<nav th:replace="_fragment :: navi(0)"></nav>
+<br><br><br>
+<div class="m-container-small">
+    <div class="ui error message">
+        <div class="ui container">
+            <h2 style="color: darkred">500</h2>
+            <p>Sorry, there is an internal error happened. </p>
+        </div>
+    </div>
+
+</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<footer th:replace="_fragment :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragment :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body>
+<nav th:replace="_fragment :: navi(0)"></nav>
+<br><br><br>
+<h1>Error</h1> <br><br><br>
+<div th:text="${url}"></div>
+    <div>
+            <div>
+                Failed Request URL: <span th:text="${url}" th:remove="tag"></span>
+            </div>
+            <div th:utext="'Execption Message:'+${exception.message} " th:remove="tag"></div>
+        </div>
+    </div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<footer th:replace="_fragment :: footer"></footer>
+</body>
+</html>

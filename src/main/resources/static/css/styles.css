@@ -1,0 +1,230 @@
+body{
+    background: url("../images/email-pattern.png") !important;
+    /* background: url("D:\Website\Blog\static\images\email-pattern.png") */
+}
+
+/* Placeholder */
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: gray !important;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: gray !important;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: gray !important;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: gray !important;
+  }
+
+.m-padding-mini{
+    padding:0.5em !important;
+}
+
+.m-padding-tb-mini{
+    padding-top: 0.2em !important;
+    padding-bottom: 0.2em !important;
+}
+
+.m-padding-tb-tiny3{
+    padding: 0.3em 0!important;
+}
+
+.m-padding-tb-tiny2{
+    padding: 0.5em 0!important;
+}
+
+.m-padding-tb-tiny{
+    padding: 1em 0!important;
+}
+
+.m-padding-tb-small{
+    padding: 2em 0!important;
+}
+
+.m-padded-lr{
+    padding: 0 4em !important;
+}
+.m-padded-l{
+    padding-left: 2em !important;
+}
+
+.m-padding-tb-medium{
+    padding: 3em 0 !important;
+}
+
+.m-padding-tb-large{
+    padding: 4em 0 !important;
+}
+
+.m-padding-tb-large-buttons{
+    padding: 2em 1em !important;
+}
+
+.m-padding-tb-massive{
+    padding: 5em 0 !important;
+}
+
+
+
+/* -------------text---------------- */
+
+.m-text{
+    font-weight: 300 !important;
+    line-height: 1.8 !important; 
+    letter-spacing: 1px !important;  
+}
+
+.m-text-for-profile{
+    font-weight: 300 !important;
+    line-height: 1.3 !important; 
+    letter-spacing: 1px !important;  
+}
+
+.m-text-thin{
+    font-weight: 300 !important;
+}
+
+.m-text-spaced{
+    letter-spacing: 2 !important;
+}
+
+.m-text-lined{
+    line-height: 1.8 !important;      
+}
+
+.m-opacity-mini{
+    opacity: 0.8 !important;
+}
+
+
+/* ------------display--------------- */
+.m-inline-block{
+    display: inline-block !important;
+}
+
+/* ------------image--------------- */
+.m-content-image{
+    margin-top: 15px;
+    width:198px;
+    height: auto;
+}
+
+.m-mobile-show{
+    display: none !important;
+}
+
+#sidebar{
+    margin-right: 3%;
+}
+
+@media only screen and (max-width: 800px){
+    .m-content-image{
+        margin-top: 15px !important;
+        width:auto !important;
+        height: auto !important;
+    }
+
+    .m-searchbar{
+        padding: 12px 0 !important;
+
+    }
+
+    .m-mobile-hide{
+        display: none !important;
+        transition: all 0.2s ease-in;
+    }
+
+    .m-mobile-show{
+        display: block !important;
+        transition: all 0.2s ease-out;
+    }
+
+    .m-padded-lr{
+        padding: 0 0.1em !important; 
+    }
+
+    .m-padded-l{
+        padding-left: 0.9em !important;
+    }
+    
+
+    .m-margin-bottom-mini{
+        margin-bottom: 0.5em !important;
+    }
+}
+
+/* ------------position-------------- */
+.m-top-right{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* -------------container--------------- */
+.m-container{
+    max-width: 72em !important;
+    margin:auto !important;
+}
+
+
+.m-container-small{
+    max-width: 60em !important;
+    margin:auto !important;
+
+}
+
+/* --------------margin--------------- */
+.m-margin-tb-tiny{
+    margin-top:0.3em !important;
+    margin-bottom: 0.3em !important;
+}
+
+.m-margin-top-small{
+    margin-top:1em !important;
+}
+
+.m-margin-top-large{
+    margin-top:2em !important;
+}
+
+.m-mobile-wide{
+    width:100% !important;
+}
+
+/* --------color---------- */
+.m-black{
+    color: #333 !important;
+}
+
+/* -------shadow---------- */
+.m-shadow-small{    
+    -webkit-box-shadow: 0px 4px 8px rgba(0,0,0,0.3) !important;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.3) !important;
+}
+
+/* -------position------- */
+.m-fixed{
+    position: fixed !important;
+    z-index: 1 !important;
+}
+
+.m-right-bottom{
+    bottom: 2px !important;
+    right: 0px !important;
+}
+
+/* ---------text color--------- */
+.m-color-white{
+    color: #fff !important;
+}
+
+/* --------hover color---------- */
+.m-hover-color a:hover,.is-active-link {
+    color: teal !important;
+}
+
+.toc-link::before {
+    height: 35px !important;
+}
+

@@ -1,0 +1,27 @@
+spring:
+  thymeleaf:
+    cache: false
+    mode: HTML
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&CharacterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Kuala_Lumpur
+    username: root
+    password: D9806f2a2b
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+logging:
+  level:
+    root: info
+    com.bjpoweronde.springboot.blog: debug
+  file:
+    name: blog-dev.log
+    path: log
+server:
+  port: 8081
