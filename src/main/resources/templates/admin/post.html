@@ -1,37 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="admin/_fragment :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Management</title>
+    <title>Blogs</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{lb/editor.md/css/editormd.css}" />
+    <link rel="stylesheet" th:href="@{/lb/editor.md/css/editormd.css}" />
 
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
-        <div class="ui container">
-            <div class="ui inverted secondary stackable menu">
-                <h2 class="ui teal header item">Blog Management</h2>
-                <a href="admin.html" class="m-item item m-mobile-hide"><i class="home icon"></i>Blog</a>
-                <a href="classification.html" class="m-item item m-mobile-hide"><i class="idea icon"></i>Classification</a>
-                <a href="tags.html" class="m-item item m-mobile-hide"><i class="tags icon"></i>Tags</a>
-                <div class="right m-item m-mobile-hide menu">
-                    <div class="ui dropdown item">
-                        <div class="text">
-                            <img th:src="@{/images/profile.jpg}" alt="profile-picture" class="ui avatar image">
-                            Ezra Chai
-                        </div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <a href="" class="item">Logout</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <nav th:replace="admin/_fragment :: navi(1)" class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
+
         <a href="#" id="sidebar" class="ui black menu icon button m-top-right m-mobile-show">
             <i class="sidebar icon"></i>
         </a>
@@ -40,8 +21,8 @@
     <div class="ui attached pointing menu">
         <div class="ui container">
             <div class="right menu">
-                <a href="#" class="active teal item">Post</a>
-                <a href="admin.html" class="item">List</a>
+                <a href="index.html" th:href="@{/admin/blogs}" class="item">List</a>
+                <a href="#" th:href="@{/admin/blogs/post}" class="active teal item">Post</a>
             </div>
 
         </div>
@@ -51,13 +32,15 @@
 
 
     <!-- 中间内容 -->
-    <div class="m-container m-padding-tb-large">
+    <div class="m-container-large m-padding-tb-large">
         <div class="ui container">
-            <form action="#" method="post" class="ui form">
+            <form id="blog-form" action="#" th:object="${blog}" th:action="@{/admin/blogs/add-new}" method="post" class="ui form">
+                <input type="hidden" name="publish">
+                <input type="hidden" name="id" th:value="*{id}">
                 <div class="required field">
                     <div class="ui left labeled input">
                     <div class="ui teal basic compact selection dropdown label">
-                        <input type="hidden">
+                        <input type="hidden" value="original" name="flag" th:value="*{flag}">
                         <i class="dropdown icon"></i>
                         <div class="default text">Original</div>
                         <div class="menu">
@@ -66,12 +49,13 @@
                             <div class="item" data-value="translate">Translate</div>
                         </div>
                     </div>
-                        <input type="text" name="title" placeholder="Title">
+                        <input type="text" th:value="*{title}" name="title" placeholder="Title">
                 </div>
                 </div>
-                <div class="field">
+                <div class="required field">
                     <div id="md-content" style="z-index:1 !important;">
-                        <textarea style="display:none;">[TOC]
+                        <textarea placeholder="Blog's Content" th:text="*{content}" name="content" style="display:none;">[TOC]
+
 #### Disabled options
 
 - TeX (Based on KaTeX);
@@ -84,16 +68,17 @@
                 </div>
 
                 <div class="two fields">
-                    <div class="field">
+                    <div class="required field">
                         <div class="ui left labeled action input">
                             <label class="ui compact teal basic label">Type</label>
                             <div class="ui fluid search selection dropdown">
-                                <input type="hidden" name="type">
+                                <input type="hidden" name="type.id" th:value="*{type}!=null?*{type.id}">
                                 <i class="dropdown icon"></i>
                                 <div class="default text">Type</div>
                                 <div class="menu">
-                                    <div class="item" data-value="1">错误日志</div>
-                                    <div class="item" data-value="2">开发手册</div>
+                                    <div th:each="type:${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
+                                    <!--<div class="item" data-value="1">错误日志</div>
+                                    <div class="item" data-value="2">开发手册</div>-->
                                 </div>
                             </div>
                         </div>
@@ -101,50 +86,55 @@
                     <div class="field">
                         <div class="ui left labeled action input">
                             <label class="ui compact teal basic label">Tags</label>
-                            <div class="ui fluid multiple search selection dropdown">
-                                <input type="hidden" name="tag">
-                                <i class="dropdown icon"></i>
+                            <div class="ui tag fluid multiple search selection dropdown" >
+                                <input type="hidden" name="tagsIds" th:value="*{tagsIds}">
+                                <i class="ui =icon"></i>
                                 <div class="default text">Tags</div>
                                 <div class="menu">
-                                    <div class="item" data-value="1">Java</div>
-                                    <div class="item" data-value="2">Javascript</div>
+                                    <div th:each="tag: ${tags}" class="item" data-value="1" th:data-value="${tag.id}" th:text="${tag.name}">Java</div>
+                                    <!--<div class="item" data-value="2">Javascript</div>
                                     <div class="item" data-value="2">React</div>
-                                    <div class="item" data-value="2">SpringBoot</div>
+                                    <div class="item" data-value="2">SpringBoot</div>-->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="field">
+                <div class="required field">
                     <div class="ui left labeled input">
                         <label class="ui teal basic label">Picture</label>
-                        <input type="text" name="indexPicture" placeholder="Picture URL">
+                        <input type="text" name="firstPicture" th:value="*{firstPicture}" placeholder="Picture URL">
                     </div>
                 </div>
+
+                <div class="required field">
+                    <textarea placeholder="Description" th:text="*{description}" name="description" maxlength="200"></textarea>
+                </div>
+
                 <div class="inline fields">
                     <div class="field">
                         <div class="ui checkbox">
-                            <input type="checkbox" id="recommend" name="recommend" checked class="hidden">
+                            <input type="checkbox" id="recommend" th:checked="*{recommend}" name="recommend" checked class="hidden">
                             <label for="recommend">Recommend</label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui checkbox">
-                            <input type="checkbox" id="shareInfo" name="info" class="hidden">
-                            <label for="shareInfo">Reshare statement</label>
+                            <input type="checkbox" id="shareStatement" th:checked="*{shareStatement}" name="shareStatement" class="hidden">
+                            <label for="shareStatement">Reshare statement</label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui checkbox">
-                            <input type="checkbox" id="appreciation" name="appreciation" class="hidden">
+                            <input type="checkbox" id="appreciation" name="appreciation" th:checked="*{appreciation}" class="hidden">
                             <label for="appreciation">Like</label>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui checkbox">
-                            <input type="checkbox" id="comment" name="comment" class="hidden">
-                            <label for="comment">Comment</label>
+                            <input type="checkbox" id="commentabled" name="commentabled" th:checked="*{commentabled}" class="hidden">
+                            <label for="commentabled">Comment</label>
                         </div>
                     </div>
                 </div>
@@ -153,8 +143,8 @@
 
                 <div class="ui right aligned container">
                     <button type="button" class="ui button" onclick="window.history.go(-1)">Return</button>
-                    <button type="button" class="ui secondary button" >Save</button>
-                    <button type="button" class="ui teal button" >Publish</button>
+                    <button type="button" id="save-btn" class="ui secondary button" >Save</button>
+                    <button type="button" id="publish-btn" class="ui teal button" >Publish</button>
                 </div>
             </form>
         </div>
@@ -219,10 +209,47 @@
                     identifier: 'title',
                     rules: [{
                         type: 'empty',
-                        prompt: 'Please enter the Blog\'s title'
-                    }]}
+                        prompt: 'Please enter the Blog\'s title.'
+                    }]},
+                content: {
+                    identifier: 'content',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please enter the Blog\'s content.'
+                    }]},
+                typeId: {
+                    identifier: 'typeId',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please select the Blog\'s type.'
+                    }]},
+                firstPicture: {
+                    identifier: 'firstPicture',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please enter the Picture URL.'
+                    }]},
+                description: {
+                    identifier: 'description',
+                    rules: [{
+                        type: 'empty',
+                        prompt: 'Please enter the Blog\'s description.'
+                    }]},
             }
         })
+
+        $("#save-btn").on("click",function(){
+            $("[name='publish']").val(false);
+            $("#blog-form").submit();
+        })
+        $("#publish-btn").on("click",function(){
+            $("[name='publish']").val(true);
+            $("#blog-form").submit();
+        })
+
+        $(".ui.tag.dropdown").dropdown({
+            allowAdditions:true
+        });
     </script>
 
     <script th:src="@{/lb/editor.md/editormd.min.js}"></script>
@@ -230,11 +257,11 @@
 			let testEditor;
 
             $(function() {
-                testEditor = editormd("md-content", {
+                testEditor = editormd("md-content",{
                     width   : "100%",
                     height  : 640,
                     syncScrolling : "single",
-                    path    : "../../static/lb/editor.md/lib/"
+                    path    : "/lb/editor.md/lib/"
                 });
 
                 /*

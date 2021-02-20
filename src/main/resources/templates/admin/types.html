@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragment :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classification</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav th:replace="admin/_fragment :: navi(2)"  class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
+    </nav>
+    <div class="ui attached pointing menu">
+        <div class="ui container">
+            <div class="right menu">
+                <a href="#" class="active teal item" th:href="@{/admin/types}">List</a>
+                <a href="post.html" th:href="@{/admin/types/add-new}" class="item">Add New</a>
+            </div>
+
+        </div>
+
+    </div>
+    <br/>
+
+
+    <!-- 中间内容 -->
+    <div class="m-container m-padding-tb-large">
+        <div class="ui container">
+            <div class="ui mini success message" th:unless="${#strings.isEmpty(message)}">
+                <i class="close icon" id="close"></i>
+                <h3 class="ui header">Message:</h3>
+                <p class="sub header" th:text="${message}"></p>
+            </div>
+
+            <table class="ui table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Function</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="type,iterStat:${page.content}">
+                        <td th:text="${iterStat.count}">1</td>
+                        <td th:text="${type.name}">刻意练习清单</td>
+                        <td>
+                            <a th:href="@{/admin/types/{id}/edit(id=${type.id})}" class="ui mini teal button">Edit</a>
+                            <a th:href="@{/admin/types/{id}/delete(id=${type.id})}" class="ui mini red button" >Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="6">
+                            <div class="ui mini pagination menu" th:if="${page.totalPages} > 1">
+                                <a th:href="@{/admin/types(page = ${page.number}-1)}" th:unless="${page.first}" class="icon item">
+                                    Previos Page
+                                </a>
+
+                                <a th:href="@{/admin/types(page = ${page.number}+1)}" th:unless="${page.last}" class="icon item">
+                                    Next Page
+                                </a>
+                            </div>
+                            <a th:href="@{/admin/types/add-new}" class="ui right floated mini basic teal button">Add new</a>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <br><br><br><br><br><br>
+    <br/>
+
+
+    <!-- 底部 -->
+    <footer th:replace="admin/_fragment :: footer" class="ui inverted vertical segment m-padding-tb-massive">
+    </footer>
+
+   <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script>
+        $(function (){
+            $("#sidebar").click(function(){
+                $('.m-item').toggleClass('m-mobile-hide')
+            })
+
+            $('.ui.dropdown').dropdown()
+
+            $("#close").on('click',function (){
+                $(this).closest('.message').transition('fade')
+            })
+        })
+    </script>
+</body>
+</html>

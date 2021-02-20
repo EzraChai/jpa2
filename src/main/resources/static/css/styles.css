@@ -3,6 +3,13 @@ body{
     /* background: url("D:\Website\Blog\static\images\email-pattern.png") */
 }
 
+footer{
+    clear: both;
+    position: relative;
+    height: 500px;
+    margin-top: -200px;
+}
+
 /* Placeholder */
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: gray !important;
@@ -71,14 +78,14 @@ body{
 
 .m-text{
     font-weight: 300 !important;
-    line-height: 1.8 !important; 
-    letter-spacing: 1px !important;  
+    line-height: 1.8 !important;
+    letter-spacing: 1px !important;
 }
 
 .m-text-for-profile{
     font-weight: 300 !important;
-    line-height: 1.3 !important; 
-    letter-spacing: 1px !important;  
+    line-height: 1.3 !important;
+    letter-spacing: 1px !important;
 }
 
 .m-text-thin{
@@ -90,7 +97,7 @@ body{
 }
 
 .m-text-lined{
-    line-height: 1.8 !important;      
+    line-height: 1.8 !important;
 }
 
 .m-opacity-mini{
@@ -141,13 +148,13 @@ body{
     }
 
     .m-padded-lr{
-        padding: 0 0.1em !important; 
+        padding: 0 0.1em !important;
     }
 
     .m-padded-l{
         padding-left: 0.9em !important;
     }
-    
+
 
     .m-margin-bottom-mini{
         margin-bottom: 0.5em !important;
@@ -167,6 +174,9 @@ body{
     margin:auto !important;
 }
 
+.m-container-large{
+    margin:auto !important;
+}
 
 .m-container-small{
     max-width: 60em !important;
@@ -198,7 +208,7 @@ body{
 }
 
 /* -------shadow---------- */
-.m-shadow-small{    
+.m-shadow-small{
     -webkit-box-shadow: 0px 4px 8px rgba(0,0,0,0.3) !important;
     box-shadow: 0px 4px 8px rgba(0,0,0,0.3) !important;
 }

@@ -1,5 +1,7 @@
 package com.bjpowernode.springboot.blog.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +11,9 @@ import java.util.List;
 public class Type {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Classification's name cannot be null.")
     private String name;
 
     @OneToMany(mappedBy = "type")

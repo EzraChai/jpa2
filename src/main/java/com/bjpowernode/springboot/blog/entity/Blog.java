@@ -11,10 +11,16 @@ import java.util.List;
 public class Blog {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
     private String content;
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    private String description;
     private String firstPicture;
     private String flag;
     private Integer views;
@@ -27,6 +33,9 @@ public class Blog {
     private Date createTime;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
+
+    @Transient
+    private String tagsIds;
 
     @ManyToOne
     private Type type;
@@ -195,6 +204,14 @@ public class Blog {
         this.updateTime = updateTime;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Blog{" +
@@ -212,5 +229,36 @@ public class Blog {
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';
+    }
+
+    public void init(){
+        this.tagsIds = tagsToIds(this.getTags());
+    }
+
+    //1,2,3
+    private String tagsToIds(List<Tag> tags){
+        if (!tags.isEmpty()){
+            StringBuffer ids = new StringBuffer();
+            boolean flag = false;
+            for(Tag tag : tags){
+                if (flag){
+                    ids.append(",");
+                }else{
+                    flag = true;
+                }
+                ids.append(tag.getId());
+            }
+            return ids.toString();
+        }else{
+            return tagsIds;
+        }
+    }
+
+    public String getTagsIds() {
+        return tagsIds;
+    }
+
+    public void setTagsIds(String tagsIds) {
+        this.tagsIds = tagsIds;
     }
 }

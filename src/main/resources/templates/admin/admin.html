@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="admin/_fragment :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Management</title>
+    <title>Blogs</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
+    <nav th:replace="admin/_fragment :: navi(1)"  class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
         <div class="ui container">
             <div class="ui inverted secondary stackable menu">
                 <h2 class="ui teal header item">Blog Management</h2>
-                <a href="admin.html" class="m-item item m-mobile-hide"><i class="home icon"></i>Blog</a>
+                <a href="index.html" class="m-item item m-mobile-hide"><i class="home icon"></i>Blog</a>
                 <a href="classification.html" class="m-item item m-mobile-hide"><i class="idea icon"></i>Classification</a>
                 <a href="tags.html" class="m-item item m-mobile-hide"><i class="tags icon"></i>Tags</a>
                 <div class="right m-item m-mobile-hide menu">
@@ -38,8 +38,8 @@
     <div class="ui attached pointing menu">
         <div class="ui container">
             <div class="right menu">
-                <a href="post.html" class="item">Post</a>
-                <a href="#" class="active teal item">List</a>
+                <a href="#" th:href="@{/admin/blogs}" class="active teal item">List</a>
+                <a href="post.html" th:href="@{/admin/blogs/post}" class="item">Post</a>
             </div>
 
         </div>
@@ -51,21 +51,28 @@
     <!-- 中间内容 -->
     <div class="m-container m-padding-tb-large">
         <div class="ui container">
-            <form action="#" class="ui segment form" method="post">
+            <form action="#" class="ui secondary segment form" method="post">
+                <input type="hidden" name="page">
                 <div class="inline fields">
                         <div class="field">
                             <input type="text" name="title" placeholder="Title">
                         </div>
                         <div class="field">
-                            <div class="ui selection dropdown">
-                                <input type="hidden" name="type">
-                                <i class="dropdown icon"></i>
-                                <div class="default text">Type</div>
-                                <div class="menu">
-                                    <div class="item" data-value="1">错误日志</div>
-                                    <div class="item" data-value="2">开发者手册</div>
+                            <div class="ui labeled action input">
+                                <div class="ui type selection dropdown">
+                                    <input type="hidden" name="typeId">
+                                    <i class="dropdown icon"></i>
+                                    <div class="default text">Type</div>
+                                    <div class="menu">
+                                        <div th:each="type:${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
+                                        <!--/*-->
+                                        <div class="item" data-value="2">开发者手册</div>
+                                        <!--*/-->
+                                    </div>
                                 </div>
+                                <button id="clear" class="ui compact button">Clear</button>
                             </div>
+
                         </div>
                         <div class="field">
                             <div class="ui checkbox">
@@ -74,53 +81,64 @@
                             </div>
                         </div>
                         <div class="field">
-                             <button class="ui mini teal basic button"><i class="search icon"></i>Search</button>
+                             <button type="button" id="search-btn" class="ui mini teal basic button"><i class="search icon"></i>Search</button>
                         </div>
 
                 </div>
             </form>
 
-            <table class="ui table">
+            <div id="table-container">
+               <table th:fragment="blogList" class="ui compact teal table">
                 <thead>
                     <tr>
                         <th></th>
                         <th>Title</th>
                         <th>Type</th>
                         <th>Recommend</th>
+                        <th>Published</th>
                         <th>Updated Time</th>
                         <th>Control</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>刻意练习清单</td>
-                        <td>认知</td>
-                        <td>是</td>
-                        <td>15-1-2021</td>
+                    <tr th:each="blog,iterStat:${page.content}">
+                        <td th:text="${iterStat.count}">1</td>
+                        <td th:text="${blog.title}">刻意练习清单</td>
+                        <td th:text="${blog.type.name}">认知</td>
+                        <td th:text="${blog.recommend ? 'Yes':'No'}">是</td>
+                        <td th:text="${blog.publish ? 'Published':'Draft'}">是</td>
+                        <td th:text="${blog.updateTime}">15-1-2021</td>
                         <td>
-                            <a href="" class="ui mini teal button">Edit</a>
-                            <a href="" class="ui mini red button">Delete</a>
+                            <a href="" th:href="@{/admin/blogs/{id}/edit(id = ${blog.id})}" class="ui mini teal button">Edit</a>
+                            <a href="" th:href="@{/admin/blogs/{id}/delete(id = ${blog.id})}" class="ui mini red button">Delete</a>
                         </td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="6">
-                            <div class="ui mini  pagination menu">
-                                <a class="icon item">
+                        <th colspan="7">
+                            <div class="ui mini pagination menu" th:if="${page.totalPages} > 1">
+                                <button onclick="page(this)" th:attr="data-page=${page.number}-1" th:unless="${page.first}" class="icon item">
                                     Previos Page
-                                </a>
+                                </button>
 
-                                <a class="icon item">
+                                <button onclick="page(this)" th:attr="data-page=${page.number}+1" th:unless="${page.last}" class="icon item">
                                     Next Page
-                                </a>
+                                </button>
                             </div>
-                            <a href="#" class="ui right floated mini basic button">Confirm</a>
+                            <a href="#" th:href="@{/admin/blogs/post}" class="ui right floated teal mini basic button">Add new</a>
                         </th>
                     </tr>
                 </tfoot>
             </table>
+
+                <div id="close" class="ui success message" th:unless="${#strings.isEmpty(message)}">
+                    <i class="close icon"></i>
+                    <div class="ui header">Tips: </div>
+                    <p th:text="${message}">Nice</p>
+                </div>
+
+            </div>
         </div>
     </div>
     <br/>
@@ -129,7 +147,7 @@
 
 
     <!-- 底部 -->
-    <footer th:replace="_fragment :: footer" class="ui inverted vertical segment m-padding-tb-massive">
+    <footer th:replace="admin/_fragment :: footer" class="ui inverted vertical segment m-padding-tb-massive">
         <div class="ui center aligned container">
             <div class="ui divided inverted stackable grid">
                 <div class="three wide column m-mobile-hide ">
@@ -175,6 +193,33 @@
             $('.m-item').toggleClass('m-mobile-hide')
         })
         $('.ui.dropdown').dropdown()
+
+        function page(obj){
+            $('[name="page"]').val($(obj).data("page"));
+            loadData();
+        }
+
+        $("#clear").on('click',function (){
+            $('.ui.type.dropdown').dropdown('clear')
+        })
+
+        $("#search-btn").on('click',function (){
+            $('[name="page"]').val(0);
+            loadData();
+        })
+
+        $("#close").on('click',function (){
+            $(this).closest('.message').transition('fade')
+        })
+
+        function loadData(){
+            $("#table-container").load("/admin/blogs/search",{
+                title: $("[name='title']").val(),
+                typeId: $("[name='typeId']").val(),
+                recommend: $("[name='recommend']").prop('checked'),
+                page: $("[name='page']").val(),
+            })
+        }
     </script>
 </body>
 </html>

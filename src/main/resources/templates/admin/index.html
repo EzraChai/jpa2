@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragment :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Management</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav th:replace="admin/_fragment :: navi(0)" class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu">
+                <h2 class="ui teal header item">Blog Management</h2>
+                <a href="index.html" class="m-item item m-mobile-hide"><i class="home icon"></i>Blog</a>
+                <a href="classification.html" class="m-item item m-mobile-hide"><i class="idea icon"></i>Classification</a>
+                <a href="tags.html" class="m-item item m-mobile-hide"><i class="tags icon"></i>Tags</a>
+                <div class="right m-item m-mobile-hide menu">
+                    <div class="ui dropdown item">
+                        <div class="text">
+                            <img th:src="@{/images/profile.jpg}" alt="profile-picture" class="ui avatar image">
+                            Ezra Chai
+                        </div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <a href="" class="item">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="#" id="sidebar" class="ui black menu icon button m-top-right m-mobile-show">
+            <i class="sidebar icon"></i>
+        </a>
+    </nav>
+    <br/>
+
+
+    <!-- 中间内容 -->
+    <div class="m-container m-padding-tb-large">
+        <div class="ui center container" >
+            <div class="ui success large message">
+                <h2>Hi, Ezra Chai</h2>
+                <p>You're way to success.</p>
+            </div>
+
+            <img th:src="@{/images/photo.jpg}" alt="photo" class="ui centered rounded bordered fluid image" style="width: 60em !important;">
+        </div>
+    </div>
+
+    <br><br>
+
+    <!-- 底部 -->
+    <footer th:replace="admin/_fragment :: footer" class="ui inverted vertical segment m-padding-tb-massive">
+    </footer>
+
+   <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script>
+        $("#sidebar").click(function(){
+            $('.m-item').toggleClass('m-mobile-hide')
+        })
+        $('.ui.dropdown').dropdown()
+    </script>
+</body>
+</html>
