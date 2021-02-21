@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class WebController {
 
-    @GetMapping("/")
+    @Deprecated
+    @GetMapping("/x")
     public String index() {
         System.out.println("==========index Method============");
         return "index";

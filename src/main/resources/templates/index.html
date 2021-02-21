@@ -9,28 +9,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav th:replace="_fragment :: navi(1)" class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
-        <div class="ui container">
-            <div class="ui inverted secondary stackable menu">
-                <h2 class="ui teal header item"></i>Blog</h2>
-                <a href="#" class=" m-item item m-mobile-hide"><i class="home icon"></i>Home</a>
-                <a href="classification.html" class="m-item item m-mobile-hide"><i class="idea icon"></i>Classification</a>
-                <a href="tags.html" class="m-item item m-mobile-hide"><i class="tags icon"></i>Tags</a>
-                <a href="achieve.html" class="m-item item m-mobile-hide"><i class="clone icon"></i>Archive</a>
-                <a href="profile.html" class="m-item item m-mobile-hide"><i class="user outline icon"></i>About Me</a>
-                <div class="m-item right item m-mobile-hide">
-                    <div class="ui icon inverted transparent input m-searchbar">
-                        <input type="text"placeholder="Search...">
-                        <i class="search link icon"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a href="#" id="sidebar" class="ui black menu icon button m-top-right m-mobile-show">
-            <i class="sidebar icon"></i>
-        </a>
-
-    </nav>
+    <nav th:replace="_fragment :: navi(1)" class="ui inverted attached segment m-padding-tb-mini m-shadow-small"></nav>
     <br/>
 
 
@@ -48,7 +27,7 @@
                                     <h2 class="ui teal header">Blog</h2>
                                 </div>
                                 <div class="right aligned column">
-                                    Total Of <h2 class="ui orange header m-inline-block m-text-thin"> 14 </h2>  Blog
+                                    Total Of <h2 class="ui orange header m-inline-block m-text-thin" th:text="${page.totalElements}"> 14 </h2>  Blog
                                 </div>
                             </div>
                     </div>
@@ -57,6 +36,48 @@
                     <div class="ui attached segment m-container">
 
 
+                        <div class="ui padded vertical segment m-padding-tb-small" th:each="blog : ${page.content}">
+                            <div class="ui middle mobile reversed stackable grid" >
+                                <div class="eleven wide column">
+                                    <h3 class="header center align"><a href="#" th:href="@{/blog/{id}(id = ${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">你真的理解什么是财富吗？</a></h3>
+                                    <a href="#" style="color: #0F192A">
+                                    <p class="m-text" th:text="|${blog.description} ...|"> 这么多年我一直在思考关于财富自由的定义，看了百度百科的定义
+
+                                        财富自由：就是有足够多的钱和时间做你想做的事情
+
+                                        这个定义对我来说虽然有意义，但是没有足够的行动指导意义，所以我自己琢磨出一个自己对财富自由的定义:</p>
+                                    </a>
+
+                                        <div class="ui grid">
+                                            <div class="eleven wide column">
+                                                <div class="ui small horizontal link list">
+                                                    <div class="item">
+                                                        <img th:src="@{${blog.user.avatar}}" src="https://www.machinecurve.com/wp-content/uploads/2019/07/thispersondoesnotexist-1-1022x1024.jpg" alt="avatar" class="ui avatar image">
+                                                        <div class="content">
+                                                            <a class="header" th:text="${blog.user.nickname}">Christian Versloot</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <i class="calendar outline icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">26-1-2021</span>
+                                                    </div>
+                                                    <div class="item">
+                                                        <i class="eye icon" ><span th:text="|${blog.views}|">2431</span></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="right aligned five wide column">
+                                                <a href="#" target="_blank" class="ui teal basic label m-padding-mini m-padding-tiny m-text-thin" th:text="${blog.type.name}">Cognitive upgrade</a>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="five center aligned wide columm ">
+                                    <a href="#" th:href="@{/blog/{id}(id = ${blog.id})}" target="_blank">
+                                        <img th:src="@{${blog.firstPicture}}" src="https://images.unsplash.com/photo-1599740746781-315ed467db0a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" th:alt="${blog.title}" alt="gray rocky mountain" class="ui rounded image m-content-image">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/*-->
                         <div class="ui padded vertical segment m-padding-tb-small">
                             <div class="ui mobile reversed stackable grid">
                                 <div class="eleven wide column">
@@ -256,59 +277,32 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="ui padded vertical segment m-padding-tb-small">
-                            <div class="ui mobile reversed stackable grid">
-                                <div class="eleven wide column">
-                                    <h3 class="header center align">你真的理解什么是财富吗？</h3>
-                                    <p class="m-text" > 这么多年我一直在思考关于财富自由的定义，看了百度百科的定义
-
-                                        财富自由：就是有足够多的钱和时间做你想做的事情
-
-                                        这个定义对我来说虽然有意义，但是没有足够的行动指导意义，所以我自己琢磨出一个自己对财富自由的定义:</p>
-
-                                        <div class="ui grid">
-                                            <div class="eleven wide column">
-                                                <div class="ui small horizontal link list">
-                                                    <div class="item">
-                                                        <img src="https://www.machinecurve.com/wp-content/uploads/2019/07/thispersondoesnotexist-1-1022x1024.jpg" alt="avatar" class="ui avatar image">
-                                                        <div class="content">
-                                                            <a class="header">Christian Versloot</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="item">
-                                                        <i class="calendar outline icon"></i>26-1-2021
-                                                    </div>
-                                                    <div class="item">
-                                                        <i class="eye icon">2431</i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="right aligned five wide column">
-                                                <a href="#" target="_blank" class="ui teal basic label m-padding-mini m-padding-tiny m-text-thin">Cognitive upgrade</a>
-                                            </div>
-                                        </div>
-                                </div>
-                                <div class="five center aligned wide columm ">
-                                    <a href="#" target="_blank">
-                                        <img src="https://images.unsplash.com/photo-1599740746781-315ed467db0a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="gray rocky mountain" class="ui rounded image m-content-image">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        <!--*/-->
                     </div>
 
 
 
 
                     <!-- Bottom / Footer -->
-                    <div class="ui bottom attached segment">
+
+                    <div class="ui mini pagination menu" th:if="${page.totalPages} > 1">
+                        <a th:href="@{/admin/tags(page = ${page.number}-1)}" th:unless="${page.first}" class="icon item">
+                            Previos Page
+                        </a>
+
+                        <a th:href="@{/admin/tags(page = ${page.number}+1)}" th:unless="${page.last}" class="icon item">
+                            Next Page
+                        </a>
+                    </div>
+
+
+                    <div class="ui bottom attached segment" th:if="${page.totalPages} > 1">
                         <div class="ui middle aligned two column grid">
                             <div class="column">
-                                <a href="" class="ui teal basic button">Previous Page</a>
+                                <a href="#" th:href="@{/(page = ${page.number}-1)}" th:unless="${page.first}" class="ui teal basic button">Previous Page</a>
                             </div>
                             <div class="right aligned column">
-                                <a href="" class="ui teal basic button">Next Page</a>
+                                <a href="#" th:href="@{/(page = ${page.number}+1)}" th:unless="${page.last}" class="ui teal basic button">Next Page</a>
                             </div>
                         </div>
                     </div>
@@ -329,11 +323,12 @@
                             </div>
                         </div>
                         <div class="ui teal segment">
-                            <div class="ui fluid vertical menu">
+                            <div class="ui fluid vertical menu" th:each="type:${types}">
                                 <a href="#" class="item">
-                                    Study Routine
-                                    <div class="ui teal basic left pointing label">13</div>
+                                    <span th:text="${type.name}">Study Routine</span>
+                                    <div class="ui teal basic left pointing label" th:text="${#arrays.length(type.blogs)}">13</div>
                                 </a>
+                                <!--/*-->
                                 <a href="#" class="item">
                                     Thinking and feeling
                                     <div class="ui teal basic left pointing label">9</div>
@@ -354,6 +349,7 @@
                                     Study Routine
                                     <div class="ui teal basic left pointing label">13</div>
                                 </a>
+                                <!--*/-->
                             </div>
                         </div>
                     </div>
@@ -372,6 +368,8 @@
                             </div>
                         </div>
                         <div class="ui teal segment">
+                            <a href="#" class="ui teal basic label m-margin-tb-tiny" th:each="tag: ${tags}"> <span th:text="${tag.name}">Function</span> <div th:text="${#arrays.length(tag.blogs)}" class="detail">13</div></a>
+                            <!--/*-->
                             <a href="#" class="ui teal basic label m-margin-tb-tiny">Function <div class="detail">13</div></a>
                             <a href="#" class="ui teal basic label m-margin-tb-tiny">Function <div class="detail">13</div></a>
                             <a href="#" class="ui teal basic label m-margin-tb-tiny">Function <div class="detail">13</div></a>
@@ -383,7 +381,7 @@
                             <a href="#" class="ui teal basic label m-margin-tb-tiny">Function <div class="detail">13</div></a>
                             <a href="#" class="ui teal basic label m-margin-tb-tiny">Function <div class="detail">13</div></a>
                             <a href="#" class="ui teal basic label m-margin-tb-tiny">Function <div class="detail">13</div></a>
-                            <a href="#" class="ui teal basic label m-margin-tb-tiny">Function <div class="detail">13</div></a>
+                            <!--*/-->
                         </div>
                     </div>
                     <!-- 最新推介 Newest Recommended Blog -->
@@ -392,6 +390,10 @@
                             <i class="bookmark icon"></i>
                             Recommended
                         </div>
+                        <div class="ui segment" th:each="blog : ${recommendBlogs}">
+                            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}" target="_blank" class="m-black m-text-thin">User Story</a>
+                        </div>
+                        <!--/*-->
                         <div class="ui segment">
                             <a href="#" target="_blank" class="m-black m-text-thin">User Story</a>
                         </div>
@@ -404,9 +406,7 @@
                         <div class="ui segment">
                             <a href="#" target="_blank" class="m-black m-text-thin">User Story</a>
                         </div>
-                        <div class="ui segment">
-                            <a href="#" target="_blank" class="m-black m-text-thin">User Story</a>
-                        </div>
+                        <!--*/-->
                     </div>
 
                     <!-- QR Code -->

@@ -16,7 +16,7 @@
     <div class="ui container">
         <div class="ui inverted secondary stackable menu">
             <h2 class="ui teal header item"></i>Blog</h2>
-            <a href="index.html" class=" m-item item m-mobile-hide" th:classappend="${n==1} ?'active':''"><i
+            <a href="index.html" th:href="@{/}" class=" m-item item m-mobile-hide" th:classappend="${n==1} ?'active':''"><i
                     class="home icon"></i>Home</a>
             <a href="classification.html" class="m-item item m-mobile-hide" th:classappend="${n==2} ?'active':''"><i
                     class="idea icon"></i>Classification</a>
@@ -27,10 +27,12 @@
             <a href="profile.html" class="m-item item m-mobile-hide" th:classappend="${n==5} ?'active':''"><i
                     class="user outline icon"></i>About Me</a>
             <div class="m-item right item m-mobile-hide">
-                <div class="ui icon inverted transparent input m-searchbar">
-                    <input type="text" placeholder="Search...">
-                    <i class="search link icon"></i>
-                </div>
+                <form name="search" action="#" th:action="@{/search}" method="post" th:target="${#httpServletRequest.requestURI} =='/search'?'_self':'_blank'">
+                    <div class="ui icon inverted transparent input m-searchbar">
+                        <input type="text" name="query" placeholder="Search..." th:value="${query}">
+                        <i onclick="document.forms['search'].submit();" class="search link icon"></i>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
