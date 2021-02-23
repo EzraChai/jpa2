@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head(title)">
+    <link rel="icon" href="/images/favicon.PNG" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:replace="${title}">Blog</title>
+    <meta name="description" content="Ezra Chai's Blog">
+    <meta name="keywords" content="SpringBoot,Java">
+    <meta name="author" content="Ezra Chai">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/typo.css}"/>
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>

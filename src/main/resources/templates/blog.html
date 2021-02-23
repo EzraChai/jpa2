@@ -3,7 +3,10 @@
 <head th:replace="_fragment :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <title th:text="${blog.title}">Blog</title>
+    <meta name="description" th:content="Ezra Chai's Blog">
+    <meta name="keywords" th:content="${blog.content}">
+    <meta name="author" th:content="${blog.user.username}">
 </head>
 <body>
     <!-- Navigation -->
