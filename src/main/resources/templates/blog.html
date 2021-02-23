@@ -87,25 +87,28 @@
                 </div>
 
                 <!-- 赞赏的功能 -->
-                <div class="ui center aligned basic segment">
-                    <button id="payBtn" class="ui orange basic circular button"> Like </button>
-                </div>
-                <div class="ui pay flowing popup transition hidden">
-                    <div class="ui orange basic label">
-                    <div class="ui image" style="font-size: inherit !important">
-                        <div class="image center aligned">
-                            <div class="image">
-                               <img th:src="@{/images/alibaba-qrcode.jpeg}" alt="qrcode" class="ui rounded bordered image" style="width:120px">
-                            <div>支付宝</div>
+                <div th:if="${blog.appreciation}">
+                    <div class="ui center aligned basic segment">
+                        <button id="payBtn" class="ui orange basic circular button"> Like </button>
+                    </div>
+                    <div class="ui pay flowing popup transition hidden">
+                        <div class="ui orange basic label">
+                            <div class="ui image" style="font-size: inherit !important">
+                                <div class="image center aligned">
+                                    <div class="image">
+                                        <img th:src="@{/images/alibaba-qrcode.jpeg}" alt="qrcode" class="ui rounded bordered image" style="width:120px">
+                                        <div>支付宝</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </div>
+
                 </div>
 
 
             </div>
-            <div class="ui attached positive message">
+            <div class="ui attached positive message" th:if="${blog.shareStatement}">
                 <!-- 博客信息 Blog Information -->
                 <div class="ui middle grid">
                     <div class="eleven wide column">
@@ -123,7 +126,7 @@
             </div>
             <div id="comment-container" class="ui bottom attached segment">
                 <!-- 留言区 Comment Area -->
-                <div id="comment-place" class="ui teal segment">
+                <div id="comment-place" class="ui teal segment" th:if="${blog.commentabled}">
                     <div th:fragment="commentList">
                         <div class="ui comments" style="max-width: 100%;">
                             <h3 class="ui dividing header" >Comments</h3>
@@ -283,41 +286,6 @@
 
     <!-- 底部 -->
     <footer th:replace="_fragment :: footer" class="ui inverted vertical segment m-padding-tb-massive">
-        <div class="ui center aligned container">
-            <div class="ui divided inverted stackable grid">
-                <div class="three wide column m-mobile-hide ">
-                    <div class="ui inverted link list">
-                        <img th:src="@{/images/qr-code.png}" alt="qr-code" class="ui rounded image" style="width:110px;">
-                    </div>
-                </div>
-                <div class="three wide column">
-                    <h4 class="ui inverted m-text-spaced m-text-lined m-color-white">Newest Blog</h4>
-                    <div class="ui inverted link list m-text-thin m-text-spaced m-text-lined m-opacity-mini">
-                        <a href="#" class="item">用户故事(User Story)</a>
-                        <a href="#" class="item">关于刻意练习的清单</a>
-                        <a href="#" class="item">失败要趁早</a>
-                    </div>
-                </div>
-                <div class="three wide column">
-                    <h4 class="ui inverted m-text-spaced m-text-lined m-color-white">Talk To Me</h4>
-                    <div class="ui inverted link list">
-                        <p class="item m-text-thin m-text-spaced m-text-lined m-opacity-mini">Email: juanzhe22@gmail.com
-                            Instagram: juanzhx_
-                        </p>
-                    </div>
-                </div>
-                <div class="seven wide column">
-                    <h4 class="ui inverted m-text-spaced m-text-lined m-color-white">Blog</h4>
-                    <div class="ui inverted link list">
-                        <p class="item m-text-thin m-text-spaced m-text-lined m-opacity-mini">This is my own blog. This is used to post some coding or some articles that I think is useful as a person. I hope this blog page can help you out in your life.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="ui inverted section divider"></div>
-            <div>
-                <p class="m-text-thin m-text-spaced m-text-lined m-opacity-mini">Copyright &copy; 2021   Blog Designed by Ezra Chai</p>
-            </div>
-        </div>
     </footer>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>

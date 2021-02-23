@@ -179,6 +179,6 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Long countBlog() {
-        return blogRepository.count();
+        return Long.valueOf(blogRepository.count());
     }
 }
