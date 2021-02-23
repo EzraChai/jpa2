@@ -12,10 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -85,7 +82,7 @@ public class BlogController {
 
     private Blog saveBlog(Blog blog, HttpSession session) {
         if (blog.getFlag().equals("")) {
-            blog.setFlag("original");
+            blog.setFlag("Original");
         }
         blog.setUser((User) session.getAttribute("user"));
         blog.setType(typeService.getType(blog.getType().getId()));
@@ -112,6 +109,13 @@ public class BlogController {
     public String deletePage(RedirectAttributes attributes, @PathVariable Long id) {
         blogService.deleteBlog(id);
         attributes.addFlashAttribute("message", "Blog deleted successfully.");
+        return REDIRECT_LIST;
+    }
+
+    @GetMapping("/blogs/avatar")
+    public String addAvatar(RedirectAttributes attributes, @RequestParam String avatarPath){
+        blogService.addAvatar(avatarPath);
+        attributes.addFlashAttribute("message", "Avatar path successfully.");
         return REDIRECT_LIST;
     }
 

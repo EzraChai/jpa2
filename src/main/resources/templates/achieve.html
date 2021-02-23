@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archieve</title>
+    <title>Archieves</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
@@ -44,35 +44,42 @@
                         <h2 class="ui teal header">Archive</h2>
                     </div>
                     <div class="right aligned column">
-                        Total Of <h2 class="ui orange header m-inline-block m-text-thin"> 14 </h2>  Blog
+                        Total Of <h2 class="ui orange header m-inline-block m-text-thin" th:text="${blogCount}"> 14 </h2>  Blog
                     </div>
                 </div>
             </div>
-            <h2 class="ui center aligned header">2019</h2>
-            <div class="ui fluid vertical menu">
-                <a href="#" target="_blank" class="item">
-                    <span>
-                        <i class="mini teal circle icon"></i> 关于刻意练习的清单
-                        <div class="ui basic teal label m-padding-mini">9 September </div>
-                    </span>
-                    <div class="ui basic orange label m-padding-mini">Original</div>
-                </a>
-                <a href="#" target="_blank" class="item">
-                    <span>
-                        <i class="mini teal circle icon"></i> 失败要趁早
-                        <div class="ui basic teal label m-padding-mini">11 December </div>
-                    </span>
-                    <div class="ui basic orange label m-padding-mini">Original</div>
-                </a>
-                <a href="#" target="_blank" class="item">
-                    <span>
-                        <i class="mini teal circle icon"></i> 失败要趁早
-                        <div class="ui basic teal label m-padding-mini">11 December </div>
-                    </span>
-                    <div class="ui basic orange label m-padding-mini">Original</div>
-                </a>
-                </div>
 
+            <th:block th:each="item : ${archiveMap}")>
+                <h2 class="ui center aligned header" th:text="${item.key}">2019</h2>
+                <div class="ui fluid vertical menu">
+                    <a href="#" target="_blank" class="item" th:href="@{/blog/{id}(id = ${blog.id})}" th:each="blog:${item.value}">
+                    <span>
+                        <i class="mini teal circle icon"></i> <span th:text="${blog.title}">关于刻意练习的清单</span>
+                        <div class="ui basic teal label m-padding-mini" th:text="${#dates.format(blog.updateTime,'dd MMM')}">9 September </div>
+                    </span>
+                        <div class="ui basic orange label m-padding-mini"th:text="${blog.flag}">Original</div>
+                    </a>
+                    <!--/*-->
+                    <a href="#" target="_blank" class="item">
+                    <span>
+                        <i class="mini teal circle icon"></i> 失败要趁早
+                        <div class="ui basic teal label m-padding-mini">11 December </div>
+                    </span>
+                        <div class="ui basic orange label m-padding-mini">Original</div>
+                    </a>
+                    <a href="#" target="_blank" class="item">
+                    <span>
+                        <i class="mini teal circle icon"></i> 失败要趁早
+                        <div class="ui basic teal label m-padding-mini">11 December </div>
+                    </span>
+                        <div class="ui basic orange label m-padding-mini">Original</div>
+                    </a>
+                    <!--*/-->
+                </div>
+            </th:block>
+
+
+            <!--/*-->
             <h2 class="ui center aligned header">2017</h2>
             <div class="ui fluid vertical menu">
                 <a href="#" target="_blank" class="item">
@@ -128,53 +135,20 @@
                     </span>
                     <div class="ui basic orange label m-padding-mini">Original</div>
                 </a>
-                </div>
+            </div>
+            <!--*/-->
         </div>
     </div>
 
 
     <br/>
     <br/>
-    <br/>
+    <br/><br>
+    <br><br><br><br><br><br>
 
 
     <!-- 底部 -->
     <footer th:replace="_fragment :: footer" class="ui inverted vertical segment m-padding-tb-massive">
-        <div class="ui center aligned container">
-            <div class="ui divided inverted stackable grid">
-                <div class="three wide column m-mobile-hide ">
-                    <div class="ui inverted link list">
-                        <img th:src="@{/images/qr-code.png}" alt="qr-code" class="ui rounded image" style="width:110px;">
-                    </div>
-                </div>
-                <div class="three wide column">
-                    <h4 class="ui inverted m-text-spaced m-text-lined">Newest Blog</h4>
-                    <div class="ui inverted link list m-text-thin m-text-spaced m-text-lined m-opacity-mini">
-                        <a href="#" class="item">用户故事(User Story)</a>
-                        <a href="#" class="item">关于刻意练习的清单</a>
-                        <a href="#" class="item">失败要趁早</a>
-                    </div>
-                </div>
-                <div class="three wide column">
-                    <h4 class="ui inverted m-text-spaced m-text-lined">Talk To Me</h4>
-                    <div class="ui inverted link list">
-                        <p class="item m-text-thin m-text-spaced m-text-lined m-opacity-mini">Email: juanzhe22@gmail.com
-                            Instagram: juanzhx_
-                        </p>
-                    </div>
-                </div>
-                <div class="seven wide column">
-                    <h4 class="ui inverted m-text-spaced m-text-lined">Blog</h4>
-                    <div class="ui inverted link list">
-                        <p class="item m-text-thin m-text-spaced m-text-lined m-opacity-mini">This is my own blog. This is used to post some coding or some articles that I think is useful as a person. I hope this blog page can help you out in your life.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="ui inverted section divider"></div>
-            <div>
-                <p class="m-text-thin m-text-spaced m-text-lined m-opacity-mini">Copyright &copy; 2021   Blog Designed by Ezra Chai</p>
-            </div>
-        </div>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>

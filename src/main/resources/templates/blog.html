@@ -8,26 +8,6 @@
 <body>
     <!-- Navigation -->
     <nav th:replace="_fragment :: navi(1)" class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
-        <div class="ui container">
-            <div class="ui inverted secondary stackable menu">
-                <h2 class="ui teal header item"></i>Blog</h2>
-                <a href="index.html" class=" m-item item m-mobile-hide"><i class="home icon"></i>Home</a>
-                <a href="classification.html" class="m-item item m-mobile-hide"><i class="idea icon"></i>Classification</a>
-                <a href="tags.html" class="m-item item m-mobile-hide"><i class="tags icon"></i>Tags</a>
-                <a href="achieve.html" class="m-item item m-mobile-hide"><i class="clone icon"></i>Archive</a>
-                <a href="profile.html" class="m-item item m-mobile-hide"><i class="user outline icon"></i>About Me</a>
-                <div class="m-item right item m-mobile-hide">
-                    <div class="ui icon inverted transparent input m-searchbar">
-                        <input type="text"placeholder="Search...">
-                        <i class="search link icon"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a href="#" id="sidebar" class="ui black menu icon button m-top-right m-mobile-show">
-            <i class="sidebar icon"></i>
-        </a>
-
     </nav>
     <br/>
 
@@ -39,36 +19,36 @@
                 <!-- 头部 Header -->
                 <div class="ui horizontal link list">
                     <div class="item">
-                        <img src="https://www.machinecurve.com/wp-content/uploads/2019/07/thispersondoesnotexist-1-1022x1024.jpg" alt="avatar" class="ui avatar image">
+                        <img th:src="@{${blog.user.avatar}}" src="https://www.machinecurve.com/wp-content/uploads/2019/07/thispersondoesnotexist-1-1022x1024.jpg" alt="avatar" class="ui avatar image">
                         <div class="content">
-                            <a class="header">Christian Versloot</a>
+                            <a class="header" th:href="@{/about-me}"><span th:text="${blog.user.username}">Christian Versloot</span></a>
                         </div>
                     </div>
                     <div class="item">
-                        <i class="calendar outline icon"></i>26-1-2021
+                        <i class="calendar outline icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">26-1-2021</span>
                     </div>
                     <div class="item">
-                        <i class="eye icon">2431</i>
+                        <i class="eye icon"><span th:text="${blog.views}">2431</span></i>
                     </div>
                 </div>
             </div>
             <div class="ui attached segment">
                 <!-- 图片 Images -->
-                <img src="https://images.unsplash.com/photo-1599740746781-315ed467db0a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="rocky mountain" class="ui fluid rounded image">
+                <img th:src="@{${blog.firstPicture}}" src="https://images.unsplash.com/photo-1599740746781-315ed467db0a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="rocky mountain" class="ui fluid rounded image">
             </div>
             <div class="ui attached padded segment js-toc-content">
                 <!-- 内容 Content -->
                 <div class="ui right aligned basic segment">
                    <div class="ui label basic orange">
-                    Original
+                    <span th:text="${blog.flag}">Original</span>
                     </div>
                 </div>
-                <h2 id="section0" class="ui center aligned header">
+                <h2 id="section0" class="ui center aligned header" th:text="${blog.title}">
                     你真的理解什么是财富吗？
                 </h2>
                 <br>
 
-                <div id="content" class="m-padded-lr m-padding-tb-small typo typo-selection">
+                <div id="content" class="m-padded-lr m-padding-tb-small typo typo-selection" th:utext="${blog.content}">
                     <p>
                         这么多年我一直在思考关于财富自由的定义，看了百度百科的定义 <br><br>
 
@@ -103,7 +83,7 @@
 
                 <!-- 标签 -->
                 <div class="m-padded-lr m-padding-tb-small">
-                    <div class="ui teal basic label">Function</div>
+                    <div class="ui teal basic label" th:each="tag:${blog.tags}" th:text="${tag.name}">Function</div>
                 </div>
 
                 <!-- 赞赏的功能 -->
@@ -130,8 +110,8 @@
                 <div class="ui middle grid">
                     <div class="eleven wide column">
                         <div class=" ui list">
-                            <li>Author： 李强</li>
-                            <li>Posted on： 2018-02-22</li>
+                            <li>Author： <span th:text="${blog.user.username}"><a th:href="@{/about}" target="_blank">李强</a></span></li>
+                            <li>Posted on：<span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd')}">2018-02-22</span> </li>
                             <li>Copyright Notice： 自由转载-非商用-保持署名（创意 3.0 许可证）</li>
                             <li>Official Account Repost：请在文末添加作者公众号二维码</li>
                         </div>
@@ -143,83 +123,115 @@
             </div>
             <div id="comment-container" class="ui bottom attached segment">
                 <!-- 留言区 Comment Area -->
-                <div class="ui teal segment">
-
-                        <div class="ui comments">
-                            <h3 class="ui dividing header">Comments</h3>
-                            <div class="comment">
-                              <a class="avatar">
-                                <img src="https://semantic-ui.com/images/avatar/small/matt.jpg">
-                              </a>
-                              <div class="content">
-                                <a class="author">Matt</a>
-                                <div class="metadata">
-                                  <span class="date">Today at 5:42PM</span>
-                                </div>
-                                <div class="text">
-                                  How artistic!
-                                </div>
-                                <div class="actions">
-                                  <a class="reply">Reply</a>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="comment">
-                              <a class="avatar">
-                                <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-                              </a>
-                              <div class="content">
-                                <a class="author">Elliot Fu</a>
-                                <div class="metadata">
-                                  <span class="date">Yesterday at 12:30AM</span>
-                                </div>
-                                <div class="text">
-                                  <p>This has been very useful for my research. Thanks as well!</p>
-                                </div>
-                                <div class="actions">
-                                  <a class="reply">Reply</a>
-                                </div>
-                              </div>
-                              <div class="comments">
-                                <div class="comment">
-                                  <a class="avatar">
-                                    <img src="https://semantic-ui.com/images/avatar/small/jenny.jpg">
-                                  </a>
-                                  <div class="content">
-                                    <a class="author">Jenny Hess</a>
+                <div id="comment-place" class="ui teal segment">
+                    <div th:fragment="commentList">
+                        <div class="ui comments" style="max-width: 100%;">
+                            <h3 class="ui dividing header" >Comments</h3>
+                            <div class="comment" th:each="comment:${comments}">
+                                <a class="avatar">
+                                    <img th:src="@{${comment.avatar}}" src="https://semantic-ui.com/images/avatar/small/matt.jpg">
+                                </a>
+                                <div class="content">
+                                    <a class="author">
+                                        <span th:text="${comment.nickname}">Matt</span>
+                                        <span class="ui mini teal basic left pointing label m-padding-mini" th:if="${comment.adminComment}">>Blogger</span>
+                                    </a>
                                     <div class="metadata">
-                                      <span class="date">Just now</span>
+                                        <span class="date" th:text="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm')}">Today at 5:42PM</span>
                                     </div>
-                                    <div class="text">
-                                      Elliot you are always so right :)
+                                    <div class="text" th:text="${comment.content}">
+                                        How artistic!
                                     </div>
                                     <div class="actions">
-                                      <a class="reply">Reply</a>
+                                        <a class="reply" data-commentid="1" data-commentusername="Matt" th:attr="data-commentid=${comment.id},data-commentusername=${comment.nickname}" onclick="reply(this)">Reply</a>
                                     </div>
-                                  </div>
                                 </div>
-                              </div>
+                                <div class="comments" th:if="${#arrays.length(comment.replyComment)>0}">
+                                    <div class="comment" th:each="reply:${comment.replyComment}">
+                                        <a class="avatar">
+                                            <img th:src="@{${reply.avatar}}" src="https://semantic-ui.com/images/avatar/small/matt.jpg">
+                                        </a>
+                                        <div class="content">
+                                            <a class="author" >
+                                                <span th:text="${reply.nickname}">Matt</span>
+                                                <span class="ui mini teal basic left pointing label m-padding-mini" th:if="${reply.adminComment}">Blogger</span>
+                                                <span th:text="| @ ${reply.parentComment.nickname}|" style="color: #00B5AD !important;">@AMx</span>
+                                            </a>
+                                            <div class="metadata">
+                                                <span class="date" th:text="${#dates.format(reply.createTime,'yyyy-MM-dd HH:mm')}">Today at 5:42PM</span>
+                                            </div>
+                                            <div class="text" th:text="${reply.content}">
+                                                How artistic!
+                                            </div>
+                                            <div class="actions">
+                                                <a class="reply" data-commentid="1" data-commentusername="Matt" th:attr="data-commentid=${reply.id},data-commentusername=${reply.nickname}" onclick="reply(this)">Reply</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/*-->
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+                                </a>
+                                <div class="content">
+                                    <a class="author">Elliot Fu</a>
+                                    <div class="metadata">
+                                        <span class="date">Yesterday at 12:30AM</span>
+                                    </div>
+                                    <div class="text">
+                                        <p>This has been very useful for my research. Thanks as well!</p>
+                                    </div>
+                                    <div class="actions">
+                                        <a class="reply">Reply</a>
+                                    </div>
+                                </div>
+                                <div class="comments">
+                                    <div class="comment">
+                                        <a class="avatar">
+                                            <img src="https://semantic-ui.com/images/avatar/small/jenny.jpg">
+                                        </a>
+                                        <div class="content">
+                                            <a class="author">Jenny Hess</a>
+                                            <div class="metadata">
+                                                <span class="date">Just now</span>
+                                            </div>
+                                            <div class="text">
+                                                Elliot you are always so right :)
+                                            </div>
+                                            <div class="actions">
+                                                <a class="reply">Reply</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="comment">
-                              <a class="avatar">
-                                <img src="https://semantic-ui.com/images/avatar/small/joe.jpg">
-                              </a>
-                              <div class="content">
-                                <a class="author">Joe Henderson</a>
-                                <div class="metadata">
-                                  <span class="date">5 days ago</span>
+                                <a class="avatar">
+                                    <img src="https://semantic-ui.com/images/avatar/small/joe.jpg">
+                                </a>
+                                <div class="content">
+                                    <a class="author">Joe Henderson</a>
+                                    <div class="metadata">
+                                        <span class="date">5 days ago</span>
+                                    </div>
+                                    <div class="text">
+                                        Dude, this is awesome. Thanks so much
+                                    </div>
+                                    <div class="actions">
+                                        <a class="reply">Reply</a>
+                                    </div>
                                 </div>
-                                <div class="text">
-                                  Dude, this is awesome. Thanks so much
-                                </div>
-                                <div class="actions">
-                                  <a class="reply">Reply</a>
-                                </div>
-                              </div>
                             </div>
-                          </div>
-                          <div class="ui form">
-                            <form class="ui reply form">
+                            <!--*/-->
+                        </div>
+                    </div>
+                </div>
+                          <div id="comment-form" class="ui form">
+                              <input type="hidden" name="blog.id" th:value="${blog.id}">
+                              <input type="hidden" name="parentComment.id" value="-1">
+                            <div class="ui reply form">
                                 <div class="field">
                                   <textarea name="content" placeholder="Please enter your message..."></textarea>
                                 </div>
@@ -227,24 +239,24 @@
                                     <div class="field m-mobile-wide m-margin-bottom-mini">
                                         <div class="ui left icon input">
                                             <i class="user icon"></i>
-                                            <input type="text" placeholder="Nickname">
+                                            <input type="text" name="nickname" placeholder="Username" th:value="${session.user}!=null ? ${session.user.nickname}">
                                         </div>
                                     </div>
                                     <div class="field m-mobile-wide m-margin-bottom-mini">
                                         <div class="ui left icon input">
                                             <i class="mail icon"></i>
-                                            <input type="text" placeholder="Email">
+                                            <input type="text" name="email" placeholder="Email" th:value="${session.user}!=null ? ${session.user.email}">
                                         </div>
                                     </div>
 
                                     <div class="field m-mobile-wide m-margin-bottom-mini">
-                                        <button class=" m-mobile-wide ui teal button">
+                                        <button id="comment-post-btn" class=" m-mobile-wide ui teal button">
                                             <i class="edit icon"></i>
                                             Post
                                         </button>
                                     </div>
                                 </div>
-                              </form>
+                              </div>
                           </div>
                 </div>
             </div>
@@ -317,8 +329,12 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
 
 <!-- Way Point -->
-<script th:src="@{/js/jquery.waypoints.min.js}"></script>
-    <script>
+<script th:src="@{/js/jquery.waypoints.min.js}" ></script>
+    <script th:inline="javascript">
+        $(function (){
+            $("#comment-place").load(/*[[@{/comments/{id}(id=${blog.id})}]]*/)
+        })
+
         $("#sidebar").click(function(){
             $('.m-item').toggleClass('m-mobile-hide')
         })
@@ -360,6 +376,108 @@
         }
         })
 
+        function reply(obj){
+            let commentId = $(obj).data('commentid')
+            let commentUsername = $(obj).data('commentusername')
+            $("[name='content']").attr('placeholder',"@"+commentUsername).focus()
+            $("[name='parentComment.id']").val(commentId)
+            $(window).scrollTo($('#comment-form'),500)
+
+        }
+
+        $('#comment-post-btn').click(function(){
+            let flag = $('.ui.form').form('validate form')
+            if (flag[0] == true){
+                postData()
+            }
+        })
+
+        function postData(){
+
+            $("#comment-place").load("/comments",{
+                'parentComment.id' : $("[name='parentComment.id']").val(),
+                'blog.id': $("[name='blog.id']").val(),
+                'nickname': $("[name='nickname']").val(),
+                'email': $("[name='email']").val(),
+                'content': $("[name='content']").val(),
+            },function(responseTxt,statusTxt,xhr){
+                // $(window).scrollTo($('#comment-place'),500)
+                if($("[name='nickname']").val() !== "EzraChai" && $("[name='email']").val() !== "juanzhe2@gmail.com"){
+                    clearContent()
+                }else{
+                    $("[name='content']").val('')
+                }
+            });
+        }
+
+        function clearContent(){
+            $("[name='content']").val('')
+            $("[name='nickname']").val('')
+            $("[name='email']").val('')
+            $("[name='parentComment.id']").val(-1)
+            $("[name='content']").attr('placeholder',"Please enter your message...")
+        }
+
+        $('.ui.form')
+            .form({
+                fields: {
+                    content: {
+                        identifier: 'content',
+                        rules: [{
+                            type: 'empty',
+                            prompt: 'Please enter your Comment\'s content.'
+                        }]},
+                    nickname: {
+                        identifier: 'nickname',
+                        rules: [{
+                            type: 'empty',
+                            prompt: 'Please enter your username.'
+                        }]},
+                    email: {
+                        identifier: 'email',
+                        rules: [{
+                            type: 'email',
+                            prompt: 'Please enter your email correctly.'
+                        }]},
+                }
+            })
+
+        // Select all links with hashes
+        $('a[href*="#"]')
+            // Remove links that don't actually link to anything
+            .not('[href="#"]')
+            .not('[href="#0"]')
+            .click(function(event) {
+                // On-page links
+                if (
+                    location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
+                    &&
+                    location.hostname == this.hostname
+                ) {
+                    // Figure out element to scroll to
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    // Does a scroll target exist?
+                    if (target.length) {
+                        // Only prevent default if animation is actually gonna happen
+                        event.preventDefault();
+                        $('html, body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000, function() {
+                            // Callback after animation
+                            // Must change focus!
+                            var $target = $(target);
+                            $target.focus();
+                            if ($target.is(":focus")) { // Checking if the target was focused
+                                return false;
+                            } else {
+                                $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+                                $target.focus(); // Set focus again
+                            };
+                        });
+                    }
+                }
+            });
     </script>
     <script th:src="@{/js/prism.js}"></script>
 
@@ -380,9 +498,11 @@
 
     <!-- QrCode -->
     <script th:src="@{/js/qrcode.min.js}"></script>
-    <script>
-        var qrcode = new QRCode("qrcode", {
-            text: "http://jindo.dev.naver.com/collie",
+    <script th:inline="javascript">
+        let server = /*[[#{server}]]*/"";
+        let url = /*[[@{blog/{id}(id = ${blog.id})}]]*/"";
+        let qrcode = new QRCode("qrcode", {
+            text: server + url,
             width: 115,
             height: 115,
             colorDark : "#000000",
@@ -390,6 +510,5 @@
             correctLevel : QRCode.CorrectLevel.H
         });
     </script>
-
 </body>
 </html>

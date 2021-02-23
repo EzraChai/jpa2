@@ -61,37 +61,43 @@
                     <img th:src="@{/images/qr-code.png}" alt="qr-code" class="ui rounded image" style="width:110px;">
                 </div>
             </div>
-            <div class="three wide column">
+            <div id="BlogList" class="three wide column" th:fragment="blogList">
                 <h4 class="ui inverted m-text-spaced m-text-lined">Newest Blog</h4>
-                <div class="ui inverted link list m-text-thin m-text-spaced m-text-lined m-opacity-mini">
-                    <a href="#" class="item">用户故事(User Story)</a>
-                    <a href="#" class="item">关于刻意练习的清单</a>
-                    <a href="#" class="item">失败要趁早</a>
+                <div class="ui inverted link list m-text-thin m-text-spaced m-text-lined m-opacity-mini" th:each="item : ${list}">
+                    <a href="#" th:href="@{/blog/{id}(id=${item.id})}" target="_blank" class="item"><span th:text="${item.title}">用户故事(User Story)</span></a>
+                    <!--<a href="#" class="item">关于刻意练习的清单</a>
+                    <a href="#" class="item">失败要趁早</a>-->
                 </div>
             </div>
             <div class="three wide column">
                 <h4 class="ui inverted m-text-spaced m-text-lined">Talk To Me</h4>
                 <div class="ui inverted link list">
-                    <p class="item m-text-thin m-text-spaced m-text-lined m-opacity-mini">Email: juanzhe22@gmail.com
-                        Instagram: juanzhx_
-                    </p>
+                    <a class="item m-text-thin m-text-spaced m-text-lined m-opacity-mini">Email: <span th:text="#{index.email}">juanzhe22@gmail.com</span></a>
+                    <a class="item m-text-thin m-text-spaced m-text-lined m-opacity-mini">Instagram: <span th:text="#{index.instagram}">juanzhx_</span></a>
                 </div>
             </div>
             <div class="seven wide column">
                 <h4 class="ui inverted m-text-spaced m-text-lined">Blog</h4>
                 <div class="ui inverted link list">
-                    <p class="item m-text-thin m-text-spaced m-text-lined m-opacity-mini">This is my own blog. This is
+                    <a class="item m-text-thin m-text-spaced m-text-lined m-opacity-mini">This is my own blog. This is
                         used to post some coding or some articles that I think is useful as a person. I hope this blog
-                        page can help you out in your life.</p>
+                        page can help you out in your life.</a>
                 </div>
             </div>
         </div>
         <div class="ui inverted section divider"></div>
         <div>
-            <p class="m-text-thin m-text-spaced m-text-lined m-opacity-mini">Copyright &copy; 2021 Blog Designed by Ezra
+            <p class="m-text-thin m-text-spaced m-text-lined m-opacity-mini">Copyright &copy; <span th:text="#{this.year}">2021</span> Blog Designed by Ezra
                 Chai</p>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <script>
+        $(function (){
+            $("#BlogList").load("/footer")
+        })
+    </script>
 </footer>
 </body>
 </html>

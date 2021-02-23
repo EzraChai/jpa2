@@ -1,6 +1,21 @@
 body{
-    background: url("../images/email-pattern.png") !important;
-    /* background: url("D:\Website\Blog\static\images\email-pattern.png") */
+    background: url("../images/grey.PNG") !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    background-size: 100% 100% !important;
+    /* background: url("D:\Website\Blog\static\images\1.png") */
+}
+#list{
+    margin-top: auto !important;
+}
+
+#comment-form{
+    padding-top: 20px;
+}
+
+.typo li{
+    font-weight: 300 !important;
+    padding: 4px 0 !important;
 }
 
 footer{

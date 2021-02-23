@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>Home</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
@@ -40,7 +40,7 @@
                             <div class="ui middle mobile reversed stackable grid" >
                                 <div class="eleven wide column">
                                     <h3 class="header center align"><a href="#" th:href="@{/blog/{id}(id = ${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">你真的理解什么是财富吗？</a></h3>
-                                    <a href="#" style="color: #0F192A">
+                                    <a href="#" th:href="@{/blog/{id}(id = ${blog.id})}" target="_blank" style="color: #0F192A">
                                     <p class="m-text" th:text="|${blog.description} ...|"> 这么多年我一直在思考关于财富自由的定义，看了百度百科的定义
 
                                         财富自由：就是有足够多的钱和时间做你想做的事情
@@ -48,13 +48,13 @@
                                         这个定义对我来说虽然有意义，但是没有足够的行动指导意义，所以我自己琢磨出一个自己对财富自由的定义:</p>
                                     </a>
 
-                                        <div class="ui grid">
+                                        <div id="list" class="ui grid">
                                             <div class="eleven wide column">
                                                 <div class="ui small horizontal link list">
                                                     <div class="item">
-                                                        <img th:src="@{${blog.user.avatar}}" src="https://www.machinecurve.com/wp-content/uploads/2019/07/thispersondoesnotexist-1-1022x1024.jpg" alt="avatar" class="ui avatar image">
+                                                            <img th:src="@{${blog.user.avatar}}" src="https://www.machinecurve.com/wp-content/uploads/2019/07/thispersondoesnotexist-1-1022x1024.jpg" alt="avatar" class="ui avatar image">
                                                         <div class="content">
-                                                            <a class="header" th:text="${blog.user.nickname}">Christian Versloot</a>
+                                                            <a th:href="@{/about-me}" class="header" th:text="${blog.user.nickname}">Christian Versloot</a>
                                                         </div>
                                                     </div>
                                                     <div class="item">
@@ -66,7 +66,7 @@
                                                 </div>
                                             </div>
                                             <div class="right aligned five wide column">
-                                                <a href="#" target="_blank" class="ui teal basic label m-padding-mini m-padding-tiny m-text-thin" th:text="${blog.type.name}">Cognitive upgrade</a>
+                                                <a href="#" th:href="@{/classification/{id}(id = ${blog.type.id})}" target="_blank" class="ui teal basic label m-padding-mini m-padding-tiny m-text-thin" th:text="${blog.type.name}">Cognitive upgrade</a>
                                             </div>
                                         </div>
                                 </div>
@@ -286,11 +286,11 @@
                     <!-- Bottom / Footer -->
 
                     <div class="ui mini pagination menu" th:if="${page.totalPages} > 1">
-                        <a th:href="@{/admin/tags(page = ${page.number}-1)}" th:unless="${page.first}" class="icon item">
+                        <a th:href="@{/tags(page = ${page.number}-1)}" th:unless="${page.first}" class="icon item">
                             Previos Page
                         </a>
 
-                        <a th:href="@{/admin/tags(page = ${page.number}+1)}" th:unless="${page.last}" class="icon item">
+                        <a th:href="@{/tags(page = ${page.number}+1)}" th:unless="${page.last}" class="icon item">
                             Next Page
                         </a>
                     </div>
@@ -324,7 +324,7 @@
                         </div>
                         <div class="ui teal segment">
                             <div class="ui fluid vertical menu" th:each="type:${types}">
-                                <a href="#" class="item">
+                                <a href="#" th:href="@{/classification/{id}(id = ${type.id})}" class="item">
                                     <span th:text="${type.name}">Study Routine</span>
                                     <div class="ui teal basic left pointing label" th:text="${#arrays.length(type.blogs)}">13</div>
                                 </a>
@@ -368,7 +368,9 @@
                             </div>
                         </div>
                         <div class="ui teal segment">
-                            <a href="#" class="ui teal basic label m-margin-tb-tiny" th:each="tag: ${tags}"> <span th:text="${tag.name}">Function</span> <div th:text="${#arrays.length(tag.blogs)}" class="detail">13</div></a>
+                            <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui teal basic label m-margin-tb-tiny" th:each="tag: ${tags}">
+                                <span th:text="${tag.name}">Function</span>
+                                <div th:text="${#arrays.length(tag.blogs)}" class="detail">13</div></a>
                             <!--/*-->
                             <a href="#" class="ui teal basic label m-margin-tb-tiny">Function <div class="detail">13</div></a>
                             <a href="#" class="ui teal basic label m-margin-tb-tiny">Function <div class="detail">13</div></a>
@@ -473,5 +475,6 @@
             $('.m-item').toggleClass('m-mobile-hide')
         })
     </script>
+    <script type="text/javascript"  zIndex="-2" th:src="@{/js/canvas-nest.js-master/dist/canvas-nest.js}"></script>
 </body>
 </html>

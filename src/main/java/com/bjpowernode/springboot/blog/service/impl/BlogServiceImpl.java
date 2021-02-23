@@ -1,10 +1,13 @@
 package com.bjpowernode.springboot.blog.service.impl;
 
+import com.bjpowernode.springboot.blog.dao.AvatarRepository;
 import com.bjpowernode.springboot.blog.dao.BlogRepository;
+import com.bjpowernode.springboot.blog.entity.Avatar;
 import com.bjpowernode.springboot.blog.entity.Blog;
 import com.bjpowernode.springboot.blog.entity.Type;
 import com.bjpowernode.springboot.blog.exception.NotFoundException;
 import com.bjpowernode.springboot.blog.service.BlogService;
+import com.bjpowernode.springboot.blog.utils.MarkdownUtils;
 import com.bjpowernode.springboot.blog.utils.MyBeanUtils;
 import com.bjpowernode.springboot.blog.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
@@ -17,20 +20,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import javax.persistence.criteria.*;
+import java.util.*;
 
 @Service
 public class BlogServiceImpl implements BlogService {
 
     @Autowired
     private BlogRepository blogRepository;
+
+    @Autowired
+    private AvatarRepository avatarRepository;
 
     @Override
     public Blog getBlog(Long id) {
@@ -77,6 +77,34 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public Page<Blog> listBlog(Pageable pageable, Long tagId) {
+        return blogRepository.findAll(new Specification<Blog>() {
+            @Override
+            public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                Join join = root.join("tags");
+                return criteriaBuilder.equal(join.get("id"),tagId);
+            }
+        },pageable);
+    }
+
+    @Transactional
+    @Override
+    public Blog getAndConvert(Long id) {
+        Optional<Blog> byId = blogRepository.findById(id);
+        if (!byId.isPresent()){
+            throw new NotFoundException("Blog Not Found");
+        }else{
+            Blog b = new Blog();
+            BeanUtils.copyProperties(byId.get(),b);
+            String content = b.getContent();
+            String value = MarkdownUtils.markDownToHTMLExtensions(content);
+            b.setContent(value);
+            b.setViews(blogRepository.updateView(id));
+            return b;
+        }
+    }
+
+    @Override
     public List<Blog> listRecommendationsBlogTop(Integer size) {
         Sort sort = Sort.by(Sort.Direction.DESC,"updateTime");
 //        Pageable pageable = new PageRequest(0,size,sort);
@@ -99,11 +127,14 @@ public class BlogServiceImpl implements BlogService {
     @Transactional
     @Override
     public Blog updateBlog(Long id, Blog blog) {
-        Optional<Blog> blog1 = blogRepository.findById(id);
-        if (blog1.isPresent()) {
-            BeanUtils.copyProperties(blog, blog1, MyBeanUtils.getNullPropertyNames(blog));
-            blog1.get().setUpdateTime(new Date());
-            return blogRepository.save(blog1.get());
+        Optional<Blog> oldBlog = blogRepository.findById(id);
+        System.out.println(oldBlog.get());
+        System.out.println("NEW blog ======== "+blog);
+        if (oldBlog.isPresent()) {
+            BeanUtils.copyProperties(blog, oldBlog.get(), MyBeanUtils.getNullPropertyNames(blog));
+            oldBlog.get().setUpdateTime(new Date());
+            System.out.println("Old blog ======== "+oldBlog);
+            return blogRepository.save(oldBlog.get());
         } else {
             throw new NotFoundException("Blog Not Found");
         }
@@ -120,11 +151,34 @@ public class BlogServiceImpl implements BlogService {
         }
     }
 
+    @Transactional
+    @Override
+    public void addAvatar(String path) {
+        Avatar avatar = new Avatar();
+        avatar.setAvatarPath(path);
+        avatarRepository.save(avatar);
+    }
+
     @Override
     public Page<Blog> listRecommendationsBlog(Pageable pageable) {
         Sort sort = Sort.by(Sort.Direction.DESC,"updateTime");
         Pageable pageable1 = PageRequest.of(0, 2, sort);
         System.out.println(pageable1.getPageSize());
         return blogRepository.findRecommeded(pageable1);
+    }
+
+    @Override
+    public Map<String, List<Blog>> archieveBlog() {
+        Map<String, List<Blog>> map = new HashMap<>();
+        List<String> years = blogRepository.findGroupYears();
+        for (String year : years) {
+            map.put(year,blogRepository.findByYear(year));
+        }
+        return map;
+    }
+
+    @Override
+    public Long countBlog() {
+        return blogRepository.count();
     }
 }

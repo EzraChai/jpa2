@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class MyBeanUtils {
     public static String[] getNullPropertyNames(Object source) {
-        Object object;
         BeanWrapper beanWrapper = new BeanWrapperImpl(source);
         PropertyDescriptor[] pds = beanWrapper.getPropertyDescriptors();
         List<String> nullPropertyNames = new ArrayList<>();
